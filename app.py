@@ -5,7 +5,7 @@ import sys
 
 
 UI_HTML = open('ui/index.html')
-UI_JS = open('ui/js/opejscad.min.js')
+UI_JS = open('ui/js/openjscad.min.js')
 
 def html_to_data_uri(html, js_callback=None):
     html = html.encode("utf-8", "replace")
