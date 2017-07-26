@@ -1,0 +1,12 @@
+{
+ "name": "bikelab",
+ "version": "0.0.1",
+ "dependencies": {
+  "@jscad/openjscad": "1.0.1"
+ },
+ "devDependencies": {
+  "grunt": "1.0.1",
+  "grunt-cli": "1.2.0",
+  "grunt-contrib-copy": "*"
+ }
+}
