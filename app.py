@@ -1,30 +1,44 @@
 from cefpython3 import cefpython as cef
-import platform
+import threading
 import sys
 
+from core.server import app
 
 
-UI_HTML = open('ui/index.html')
-UI_JS = open('ui/js/openjscad.min.js')
-
-def html_to_data_uri(html, js_callback=None):
-    html = html.encode("utf-8", "replace")
-    b64 = base64.b64encode(html.read()).decode("utf-8", "replace")
-    ret = "data:text/html;base64,{data}".format(data=b64)
-    if js_callback:
-        js_callback.Call(ret)
-    else:
-        return ret
+CORE_PATH = "./core"
+UI_PATH = "./ui"
 
 class LoadHandler(object):
     def OnLoadingStateChange(self, browser, is_loading, **_):
         if not is_loading:
-            browser.ExecuteJavascript(UI_JS.read())
+            pass
+
+class Backend(object):
+    def __init__(self, port):
+        self.port = port
+        self.thread = threading.Thread(target=app,
+            args=(port, UI_PATH, UI_PATH)
+        )
+
+    def run(self):
+        self.thread.start()
+
 
 def main():
     sys.excepthook = cef.ExceptHook
-    cef.Initialize()
-    cef.CreateBrowserSync(url=html_to_data_uri(UI_HTML), window_title="BikeLab")
+
+    switches = {
+        "ignore-gpu-blacklist": "true",
+    }
+
+    cef.Initialize(switches=switches)
+
+    browser = cef.CreateBrowserSync(url="http://localhost:8123", window_title="BikeLab")
+    browser.SetClientHandler(LoadHandler())
+
+    backend = Backend(8123)
+    backend.run()
+
     cef.MessageLoop()
     cef.Shutdown()
 

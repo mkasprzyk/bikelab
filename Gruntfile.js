@@ -4,7 +4,8 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     dirs: {
-      dest: 'ui/js'
+      dest_js: 'ui/js',
+      dest_css: 'ui/css'
     },
     copy: {
       js: {
@@ -13,10 +14,16 @@ module.exports = function(grunt) {
              expand: true, 
              cwd: 'node_modules/@jscad/openjscad/dist', 
              src: 'min.js', 
-             dest: '<%= dirs.dest %>',
+             dest: '<%= dirs.dest_js %>',
              rename: function(dest, src) {
               return dest + '/' + 'openjscad.min.js';
-            }
+             }
+	  },
+	  {
+             expand: true,
+             cwd: 'node_modules/@jscad/openjscad',
+             src: 'style.css',
+             dest: '<%= dirs.dest_css %>',
           }
         ]
       }
