@@ -1,0 +1,13 @@
+--- node_modules/@jscad/openjscad/src/ui/min.js	2017-05-28 09:52:41.000000000 +0200
++++ node_modules/@jscad/openjscad/src/ui/min.js	2017-05-28 09:52:41.000000000 +0200
+@@ -35,8 +35,7 @@
+     }
+     xhr.send()
+   }
++  return gProcessor;
+ }
+ 
+-document.addEventListener('DOMContentLoaded', function (event) {
+-  init()
+-})
++module.exports = { init, gProcessor };
