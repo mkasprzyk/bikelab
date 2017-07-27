@@ -1,15 +1,16 @@
 {
  "name": "bikelab",
  "version": "0.0.1",
- "scripts": {
-  "postinstall": "patch -N -p0 <  patch/min_as_module.patch && browserify ui/src/bikelab.js -o ui/js/bikelab.js"
- },
  "dependencies": {
   "@jscad/openjscad": "1.0.1"
+ },
+ "scripts": {
+  "postinstall": "grunt"
  },
  "devDependencies": {
   "grunt": "^1.0.1",
   "grunt-cli": "1.2.0",
+  "grunt-exec": "2.0.0",
   "grunt-contrib-copy": "*",
   "browserify": "14.3.0",
   "browserify-shim": "^3.8.12"
