@@ -16,4 +16,4 @@ build_script:
   - "pyinstaller app.py"
 
 artifacts:
-  - path: dist\*
+  - path: build\app\app.exe
