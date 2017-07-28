@@ -13,6 +13,7 @@ install:
   - "%PYTHON%/Scripts/pip.exe install pyinstaller"
 
 build_script:
+  - "npm install"
   - "%PYTHON%/Scripts/pyinstaller.exe app.spec"
   - "%PYTHON%/python.exe ci/prepare_release.py"
 

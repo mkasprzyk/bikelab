@@ -12,6 +12,7 @@ a = Analysis(['app.py'],
              datas=[
                ('%s/icudtl.dat' % cefp, '.'),
                ('%s/natives_blob.bin' % cefp, '.'),
+               ('./ui', 'ui'),
              ],
              win_no_prefer_redirects=False,
              win_private_assemblies=False,
