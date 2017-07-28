@@ -1,12 +1,22 @@
 from cefpython3 import cefpython as cef
 import threading
 import sys
+import os
 
 from core.server import app
 
 
-CORE_PATH = "./core"
-UI_PATH = "./ui"
+
+CORE_PATH = "core"
+UI_PATH = "ui"
+
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 class LoadHandler(object):
     def OnLoadingStateChange(self, browser, is_loading, **_):
@@ -17,7 +27,7 @@ class Backend(object):
     def __init__(self, port):
         self.port = port
         self.thread = threading.Thread(target=app,
-            args=(port, UI_PATH, UI_PATH)
+            args=(port, resource_path(UI_PATH), resource_path(UI_PATH))
         )
 
     def run(self):
@@ -28,7 +38,6 @@ class Backend(object):
             js_callback.Call(value)
         return value
 
-
 def main():
     sys.excepthook = cef.ExceptHook
 
@@ -36,7 +45,12 @@ def main():
         "ignore-gpu-blacklist": "true",
     }
 
-    cef.Initialize(switches=switches)
+    settings = {
+        "resources_dir_path": resource_path('.'),
+        "locales_dir_path": resource_path('locales'),
+    }
+
+    cef.Initialize(settings, switches=switches)
     backend = Backend(8123)
 
     bindings = cef.JavascriptBindings(bindToFrames=False, bindToPopups=False)

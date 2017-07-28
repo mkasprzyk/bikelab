@@ -17,9 +17,6 @@ install:
 build_script:
   - "npm install"
   - "%PYTHON%/Scripts/pyinstaller.exe app.spec"
-  - "%PYTHON%/python.exe ci/prepare_release.py"
 
 artifacts:
-  - path: dist
-    name: bikelab 
-    type: zip
+  - path: dist\*.exe
