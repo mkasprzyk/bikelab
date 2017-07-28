@@ -13,9 +13,10 @@ install:
   - "%PYTHON%/Scripts/pip.exe install pyinstaller"
 
 build_script:
-  - "pyinstaller -F app.py"
+  - "%PYTHON%/Scripts/pyinstaller.exe app.spec"
+  - "%PYTHON%/python.exe ci/prepare_release.py"
 
 artifacts:
-  - path: dist\*.exe
+  - path: dist
     name: bikelab 
     type: zip
