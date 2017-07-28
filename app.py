@@ -23,6 +23,11 @@ class Backend(object):
     def run(self):
         self.thread.start()
 
+    def message(self, value, js_callback=None):
+        if js_callback:
+            js_callback.Call(value)
+        return value
+
 
 def main():
     sys.excepthook = cef.ExceptHook
@@ -32,13 +37,16 @@ def main():
     }
 
     cef.Initialize(switches=switches)
+    backend = Backend(8123)
+
+    bindings = cef.JavascriptBindings(bindToFrames=False, bindToPopups=False)
+    bindings.SetFunction("message", backend.message)
 
     browser = cef.CreateBrowserSync(url="http://localhost:8123", window_title="BikeLab")
+    browser.SetJavascriptBindings(bindings)
     browser.SetClientHandler(LoadHandler())
 
-    backend = Backend(8123)
     backend.run()
-
     cef.MessageLoop()
     cef.Shutdown()
 
