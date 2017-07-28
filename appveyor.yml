@@ -1,4 +1,5 @@
 environment:
+  nodejs_version: "7"
   matrix:
     - PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7.8"
