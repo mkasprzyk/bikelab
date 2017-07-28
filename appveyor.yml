@@ -13,9 +13,9 @@ install:
   - "%PYTHON%/Scripts/pip.exe install pyinstaller"
 
 build_script:
-  - "pyinstaller app.py"
+  - "pyinstaller -F app.py"
 
 artifacts:
-  - path: build\app
+  - path: dist\*.exe
     name: bikelab 
     type: zip
