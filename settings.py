@@ -2,40 +2,35 @@
 import os
 import sys
 
-from cefpython3 import cefpython
 from utils import *
 
 
-def get_cefpython_path():
-    path = os.path.dirname(cefpython.__file__)
-    if sys.platform == 'darwin':
-        path = os.path.join(path, "Chromium Embedded Framework.framework", "Resources")
-    return path
-
-cef_settings = {
-    "resources_dir_path": resource_path('.'),
-}
+cef_settings = {}
 
 cef_switches = {
     "ignore-gpu-blacklist": "true",
 }
 
-if sys.platform != 'darwin':
-    resources = '.'
-    locales_src = os.path.join(get_cefpython_path(), 'locales', 'en-US.pak')
-    locales_dst = os.path.join('locales', 'en-US.pak')
+if sys.platform == 'darwin':
+    framework = 'Chromium Embedded Framework.framework'
+    resources = os.path.join(framework, 'Resources')
     cef_settings.update({
-        "locales_dir_path": resource_path('locales'),
-    })
-else:
-    resources = 'Resources'
-    locales_src = os.path.join(get_cefpython_path(), 'en.lproj', 'locale.pak')
-    locales_dst = os.path.join(resources, 'en.lproj', 'locale.pak')
-    cef_settings.update({
-        "framework_dir_path": resource_path('.'),
+        "resources_dir_path": resource_path(resources),
+        "framework_dir_path": resource_path(framework),
         "locales_dir_path": resource_path(resources),
     })
+    locales_src = resource_path(os.path.join(resources, 'en.lproj'))
+    locales_dst = resources
+else:
+    resources = '.'
+    cef_settings.update({
+        "resources_dir_path": resource_path(resources),
+        "locales_dir_path": resource_path('locales'),
+    })
+    locales_src = resource_path('locales', 'en-US.pak')
+    locales_dst = os.path.join('locales', 'en-US.pak')
 
-CORE_PATH = resource_path("core")
-UI_PATH = resource_path("ui")
-
+if hasattr(sys, 'freeze'):
+    UI_PATH = resource_path("ui")
+else:
+    UI_PATH = os.path.join(os.getcwd(), 'ui')

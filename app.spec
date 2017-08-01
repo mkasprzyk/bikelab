@@ -7,17 +7,16 @@ import settings
 
 block_cipher = None
 
-cefp = settings.get_cefpython_path()
-
+cef_resources = settings.cef_settings['resources_dir_path']
 a = Analysis(['app.py'],
              datas=[
                ('./ui', 'ui'),
-               ('%s/icudtl.dat' % cefp, settings.resources),
-               ('%s/natives_blob.bin' % cefp, settings.resources),
-               ('%s/cef.pak' % cefp, '.'),
-               ('%s/cef_100_percent.pak' % cefp, '.'),
-               ('%s/cef_200_percent.pak' % cefp, '.'),
-               ('%s/cef_extensions.pak' % cefp, '.'),
+               ('%s/icudtl.dat' % cef_resources, settings.resources),
+               ('%s/natives_blob.bin' % cef_resources, settings.resources),
+               ('%s/cef.pak' % cef_resources, settings.resources),
+               ('%s/cef_100_percent.pak' % cef_resources, settings.resources),
+               ('%s/cef_200_percent.pak' % cef_resources, settings.resources),
+               ('%s/cef_extensions.pak' % cef_resources, settings.resources),
                (settings.locales_src, settings.locales_dst)
              ],
              cipher=block_cipher)
