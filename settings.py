@@ -27,8 +27,8 @@ else:
         "resources_dir_path": resource_path(resources),
         "locales_dir_path": resource_path('locales'),
     })
-    locales_src = resource_path('locales', 'en-US.pak')
     locales_dst = os.path.join('locales', 'en-US.pak')
+    locales_src = resource_path(locales_dst)
 
 if hasattr(sys, 'freeze'):
     UI_PATH = resource_path("ui")
