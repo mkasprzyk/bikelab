@@ -4,6 +4,7 @@ import os
 
 sys.path.append(os.path.join(os.getcwd()))
 import settings
+import utils
 
 block_cipher = None
 
@@ -11,6 +12,7 @@ cef_resources = settings.cef_settings['resources_dir_path']
 a = Analysis(['app.py'],
              datas=[
                ('./ui', 'ui'),
+               ('%s/subprocess' % utils.get_cefpython_path(), '.'),
                ('%s/icudtl.dat' % cef_resources, settings.resources),
                ('%s/natives_blob.bin' % cef_resources, settings.resources),
                ('%s/cef.pak' % cef_resources, settings.resources),

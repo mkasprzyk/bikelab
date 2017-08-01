@@ -5,7 +5,9 @@ import sys
 from utils import *
 
 
-cef_settings = {}
+cef_settings = {
+    'browser_subprocess_path': resource_path('subprocess')
+}
 
 cef_switches = {
     "ignore-gpu-blacklist": "true",
