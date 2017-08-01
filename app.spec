@@ -1,30 +1,28 @@
 # -*- mode: python -*-
+import sys
+import os
+
+sys.path.append(os.path.join(os.getcwd()))
+import settings
 
 block_cipher = None
 
-def get_cefpython_path():
-    from cefpython3 import cefpython
-    path = os.path.dirname(cefpython.__file__)
-    return "%s%s" % (path, os.sep)
+cefp = settings.get_cefpython_path()
 
-cefp = get_cefpython_path()
 a = Analysis(['app.py'],
              datas=[
-               ('%s/icudtl.dat' % cefp, '.'),
-               ('%s/natives_blob.bin' % cefp, '.'),
+               ('./ui', 'ui'),
+               ('%s/icudtl.dat' % cefp, settings.resources),
+               ('%s/natives_blob.bin' % cefp, settings.resources),
                ('%s/cef.pak' % cefp, '.'),
                ('%s/cef_100_percent.pak' % cefp, '.'),
                ('%s/cef_200_percent.pak' % cefp, '.'),
                ('%s/cef_extensions.pak' % cefp, '.'),
-               ('%s/locales/en-US.pak' % cefp, 'locales/'),
-               ('./ui', 'ui'),
+               (settings.locales_src, settings.locales_dst)
              ],
-             win_no_prefer_redirects=False,
-             win_private_assemblies=False,
              cipher=block_cipher)
 
-pyz = PYZ(a.pure, a.zipped_data,
-             cipher=block_cipher)
+pyz = PYZ(a.pure, cipher=block_cipher)
 
 exe = EXE(pyz,
           a.scripts,
